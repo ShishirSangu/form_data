@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account</title>
+</head>
+<body>
+
+<h2 class="container">Create Your Account</h2>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enter Name and Surname</title>
+<style>
+    .form-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    
+    .form-group label {
+        display: block;
+    } 
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        
+    }
+    
+    .container {
+        background-color: rgb(246, 174, 49);
+        width: 50%;
+        max-width: 400px;
+        margin: auto;
+        padding: 10px;
+    }
+
+    #end{
+        align-content: center;
+        width: 150px;
+        height: 30px;
+    }
+
+    
+
+</style>
+<body>
+
+    <form name="submit-to-google-sheet" class="container">
+        <!-- <form action="/submit" method="post"> -->
+        
+        
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" name="surname" required>
+        </div><br><br>
+    
+        
+        <!-- </form> -->
+        <!-- <form action="/submit" method="post"> -->
+        <label for="gmail" >Gmail Address:</label><br>
+        <input type="email" id="gmail" name="gmail" pattern="[a-zA-Z0-9._%+-]+@gmail.com" required><br>
+        <small>Example: example@gmail.com</small><br><br>
+
+
+        <!-- Country -->
+        
+        <label for="country">Country:</label><br>
+        <select id="country" name="country">
+            <option value="IND">India</option>
+            <option value="US">United States</option>
+            <option value="UK">United Kingdom</option>
+            <option value="CHN">China</option>
+            <!-- Add more options as needed -->
+        </select><br><br>
+
+        <!-- Phane number -->
+
+        <label for="phone">Phone Number:</label><br>
+        <select id="country-code" name="country-code">
+            <option value="+91">+91 (IND)</option>
+            <option value="+1">+1 (US)</option>
+            <option value="+44">+44 (UK)</option>
+            <option value="+91">+86 (CHN)</option>
+            <!-- Add more options as needed -->
+        </select>
+        <input type="tel" id="phone" name="phone" required><br><br>
+
+        <!-- Gender -->
+
+        <label for="gender">Gender:</label><br>
+        <select id="gender" name="gender" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select><br><br>
+
+        <!-- DOB -->
+
+        <label for="dob">Date of Birth:</label><br>
+        <input type="date" id="dob" name="dob" required><br><br>
+
+        <!-- Submit -->
+        <center><input type="submit" value="Create Account" name="submit" id="end">
+            <br><span id="success"></span></center>
+        
+    </form>
+    <script>
+        function calculateAge() {
+            var dob = document.getElementById("dob").value;
+            var today = new Date();
+            var birthDate = new Date(dob);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age < 15) {
+                alert("You must be at least 15 years old to proceed.");
+                document.getElementById("dob").value = "";
+            }
+        }
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyg2CYvC2xv72b0xqlg3PXo3miIg-VEeKWr9gWjGbM5XMKOuKY1Qy-wrJNs9rmCNpHb1A/exec'
+            const form = document.forms['submit-to-google-sheet']
+            const success =document.getElementById('success');
+            form.addEventListener('submit', e => {
+              e.preventDefault()
+              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    success.innerHTML="Data successfully submit";
+
+                    setTimeout(function()
+                    {
+                        success.innerHTML="";
+                    },2000)
+                    form.reset();
+                })
+                .catch(error => console.error('Error!', error.message))
+            })
+             
+    </script>
+<!-- </form> -->
+
+</body>
+</html>
